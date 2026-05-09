@@ -10,7 +10,18 @@ public class ItemPedidoConfiguration : IEntityTypeConfiguration<ItemPedido>
     public void Configure(EntityTypeBuilder<ItemPedido> builder)
     {
         // PROPERTIES
-        builder.ToTable("ItensPedido");
+        builder.ToTable("ItensPedido", table =>
+        {
+            table.HasCheckConstraint(
+                "CK_ItemPedido_Quantidade",
+                "\"Quantidade\" > 0"
+            );
+
+            table.HasCheckConstraint(
+                "CK_ItemPedido_PrecoUnitario",
+                "\"PrecoUnitario\" > 0"
+            );
+        });
 
         builder.HasKey(ip => ip.Id);
 

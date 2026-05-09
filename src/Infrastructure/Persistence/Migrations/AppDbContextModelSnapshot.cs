@@ -41,7 +41,12 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PedidoId");
 
-                    b.ToTable("ItensPedido", (string)null);
+                    b.ToTable("ItensPedido", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_ItemPedido_PrecoUnitario", "\"PrecoUnitario\" > 0");
+
+                            t.HasCheckConstraint("CK_ItemPedido_Quantidade", "\"Quantidade\" > 0");
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Pedido", b =>
