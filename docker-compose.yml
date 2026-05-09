@@ -4,4 +4,7 @@ services:
     working_dir: /workspace
     volumes:
       - .:/workspace
-    command: /bin/sh -c "sleep infinity"
+    command: >
+      dotnet tool install -g dotnet-reportgenerator-globaltool
+      && export PATH="$PATH:/root/.dotnet/tools"
+      && /bin/sh -c "sleep infinity"
