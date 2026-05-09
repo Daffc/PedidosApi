@@ -1,10 +1,14 @@
 services:
   dotnet:
-    image: mcr.microsoft.com/dotnet/sdk:8.0
+    build:
+      context: .
+      dockerfile: Dockerfile
     working_dir: /workspace
     volumes:
       - .:/workspace
-    command: >
-      dotnet tool install -g dotnet-reportgenerator-globaltool
-      && export PATH="$PATH:/root/.dotnet/tools"
-      && /bin/sh -c "sleep infinity"
+      - sqlite_data:/workspace/persistence
+    tty: true
+    command: sleep infinity
+
+volumes:
+  sqlite_data:
