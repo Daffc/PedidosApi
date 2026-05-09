@@ -11,6 +11,8 @@ public class Pedido : Entity
     public string ClienteNome { get; private set; } = default!;
     public DateTime DataCriacao { get; private set; }
     public StatusPedido Status { get; private set; }
+
+    public IReadOnlyCollection<ItemPedido> Itens => _itens.AsReadOnly();
     public decimal ValorTotal => _itens.Sum(item => item.Subtotal);
 
     protected Pedido()
