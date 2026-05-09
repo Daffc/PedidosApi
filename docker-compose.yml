@@ -1,0 +1,7 @@
+services:
+  dotnet:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    command: /bin/sh -c "sleep infinity"
