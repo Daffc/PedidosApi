@@ -29,11 +29,11 @@ public sealed class PedidoRepository : IPedidoRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<Pedido?> GetByIdAsync(Guid Id)
+    public async Task<Pedido?> GetByIdAsync(Guid id)
     {
         return await _dbContext.Pedidos
-            .Include(p => p.Id)
-            .FirstOrDefaultAsync();
+            .Include(p => p.Itens)
+            .FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<PagedResult<Pedido>> GetPagedAsync(StatusPedido? statusPedido, int page, int pageSize)

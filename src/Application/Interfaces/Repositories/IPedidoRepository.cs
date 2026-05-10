@@ -8,7 +8,7 @@ public interface IPedidoRepository
 {
     Task CreateAsync(Pedido pedido);
     Task UpdateAsync(Pedido pedido);
-    Task<Pedido?> GetByIdAsync(Guid Id);
+    Task<Pedido?> GetByIdAsync(Guid id);
     Task<PagedResult<Pedido>> GetPagedAsync(
         StatusPedido? statusPedido,
         int page,
