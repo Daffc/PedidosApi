@@ -12,7 +12,19 @@ public class PedidoConfigutaion : IEntityTypeConfiguration<Pedido>
 
         // PROPERTIES
 
-        builder.ToTable("Pedidos");
+        builder.ToTable("Pedidos", table =>
+            {
+                table.HasCheckConstraint(
+                    "CK_ItemPedido_ClienteNome_MaxLength",
+                    "length(\"ClienteNome\") <= 200"
+                );
+
+                table.HasCheckConstraint(
+                    "CK_ItemPedido_StatusMaxLength",
+                    "length(\"Status\") <= 20"
+                );
+            }
+        );
 
         builder.HasKey(p => p.Id);
 
@@ -30,7 +42,6 @@ public class PedidoConfigutaion : IEntityTypeConfiguration<Pedido>
             .HasConversion<string>()
             .IsRequired()
             .HasMaxLength(20);
-        
 
         // NAVIGATION
         builder.Metadata

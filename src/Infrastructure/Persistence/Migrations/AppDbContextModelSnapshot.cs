@@ -45,6 +45,8 @@ namespace Infrastructure.Persistence.Migrations
                         {
                             t.HasCheckConstraint("CK_ItemPedido_PrecoUnitario", "\"PrecoUnitario\" > 0");
 
+                            t.HasCheckConstraint("CK_ItemPedido_ProdutoNome_MaxLength", "length(\"ProdutoNome\") <= 200");
+
                             t.HasCheckConstraint("CK_ItemPedido_Quantidade", "\"Quantidade\" > 0");
                         });
                 });
@@ -69,7 +71,12 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pedidos", (string)null);
+                    b.ToTable("Pedidos", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_ItemPedido_ClienteNome_MaxLength", "length(\"ClienteNome\") <= 200");
+
+                            t.HasCheckConstraint("CK_ItemPedido_StatusMaxLength", "length(\"Status\") <= 20");
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.ItemPedido", b =>

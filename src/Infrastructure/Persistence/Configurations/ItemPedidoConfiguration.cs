@@ -21,6 +21,11 @@ public class ItemPedidoConfiguration : IEntityTypeConfiguration<ItemPedido>
                 "CK_ItemPedido_PrecoUnitario",
                 "\"PrecoUnitario\" > 0"
             );
+
+            table.HasCheckConstraint(
+                "CK_ItemPedido_ProdutoNome_MaxLength",
+                "length(\"ProdutoNome\") <= 200"
+            );
         });
 
         builder.HasKey(ip => ip.Id);
