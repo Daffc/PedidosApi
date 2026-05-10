@@ -23,9 +23,7 @@ public sealed class PedidoService : IPedidoService
         _mapper = mapper;
     }
 
-    public async Task<PedidoResponse> CreateAsync(
-        CreatePedidoRequest request
-    )
+    public async Task<PedidoResponse> CreateAsync(CreatePedidoRequest request)
     {
         var itens = request.Itens
             .Select(item => new ItemPedido(
@@ -45,9 +43,7 @@ public sealed class PedidoService : IPedidoService
         return _mapper.Map<PedidoResponse>(pedido);
     }
 
-    public async Task<PedidoResponse> GetByIdAsync(
-        Guid id
-    )
+    public async Task<PedidoResponse> GetByIdAsync(Guid id)
     {
         var pedido = await _pedidoRepository.GetByIdAsync(id);
 
@@ -57,9 +53,7 @@ public sealed class PedidoService : IPedidoService
         return _mapper.Map<PedidoResponse>(pedido);
     }
 
-    public async Task<PagedResponse<PedidoResponse>> GetPagedAsync(
-        GetPedidosRequest request
-    )
+    public async Task<PagedResponse<PedidoResponse>> GetPagedAsync(GetPedidosRequest request)
     {
         StatusPedido? statusPedido = null;
 

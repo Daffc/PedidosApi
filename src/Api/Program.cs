@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-
-using Infrastructure.Persistence;
+using Application.DependencyInjection;
+using Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,12 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// INJETANDO DEPENDÊNCIAS DE APPLICATION
+builder.Services.AddApplication();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    {
-        options.UseSqlite("Data Source=/workspace/persistence/pedidos.db");
-    }
-);
+// INJETANDO DEPENDÊNCIAS DE INFRASTRUCTURE
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
