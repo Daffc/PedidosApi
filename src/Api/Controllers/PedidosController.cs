@@ -1,4 +1,5 @@
 using Application.DTOs.Requests;
+using Application.DTOs.Responses;
 using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,8 +22,8 @@ public sealed class PedidosController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(PedidoResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateAsync(
         [FromBody] CreatePedidoRequest request
     )
@@ -39,8 +40,9 @@ public sealed class PedidosController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetById")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(PedidoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation($"Obtendo pedido {id}");
@@ -51,8 +53,8 @@ public sealed class PedidosController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(PagedResponse<PedidoResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetPagedAsync(
         [FromQuery] GetPedidosRequest request
     )
@@ -66,7 +68,8 @@ public sealed class PedidosController : ControllerBase
 
     [HttpPatch("{id:guid}/cancelar")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Cancel(
         Guid id
