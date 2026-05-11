@@ -12,6 +12,8 @@ public sealed class ApiFactory : WebApplicationFactory<Program>
     private SqliteConnection _connection = null!;
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        builder.UseEnvironment("Testing");
+        
         builder.ConfigureServices(services =>
         {
             // REMOVE DEPENDENCIAS ORIGINAIS
