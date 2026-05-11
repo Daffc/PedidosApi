@@ -10,7 +10,7 @@ public class AppDbContext : DbContext
     { }
 
     public DbSet<Pedido> Pedidos => Set<Pedido>();
-    public DbSet<ItemPedido> ItemPedido => Set<ItemPedido>();
+    public DbSet<ItemPedido> ItensPedido => Set<ItemPedido>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

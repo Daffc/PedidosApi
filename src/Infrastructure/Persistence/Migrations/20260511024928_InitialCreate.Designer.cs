@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Persistence.Migrations
+namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260509221448_CreateEntities")]
-    partial class CreateEntities
+    [Migration("20260511024928_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,14 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PedidoId");
 
-                    b.ToTable("ItensPedido", (string)null);
+                    b.ToTable("ItensPedido", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_ItemPedido_PrecoUnitario", "\"PrecoUnitario\" > 0");
+
+                            t.HasCheckConstraint("CK_ItemPedido_ProdutoNome_MaxLength", "length(\"ProdutoNome\") <= 200");
+
+                            t.HasCheckConstraint("CK_ItemPedido_Quantidade", "\"Quantidade\" > 0");
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Pedido", b =>
@@ -67,7 +74,12 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pedidos", (string)null);
+                    b.ToTable("Pedidos", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_ItemPedido_ClienteNome_MaxLength", "length(\"ClienteNome\") <= 200");
+
+                            t.HasCheckConstraint("CK_ItemPedido_StatusMaxLength", "length(\"Status\") <= 20");
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.ItemPedido", b =>

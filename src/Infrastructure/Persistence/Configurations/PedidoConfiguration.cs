@@ -5,7 +5,7 @@ using Domain.Entities;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class PedidoConfigutaion : IEntityTypeConfiguration<Pedido>
+public class PedidoConfiguration : IEntityTypeConfiguration<Pedido>
 {
     public void Configure(EntityTypeBuilder<Pedido> builder)
     {
