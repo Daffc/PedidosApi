@@ -103,4 +103,18 @@ public sealed class PedidoService : IPedidoService
 
         await _pedidoRepository.UpdateAsync(pedido);
     }
+
+    public async Task PayAsync(Guid id)
+    {
+        var pedido = await _pedidoRepository.GetByIdAsync(id);
+
+        if (pedido is null)
+        {
+            throw new KeyNotFoundException($"Pedido '{id}' não encontrado.");
+        }
+
+        pedido.Pagar();
+
+        await _pedidoRepository.UpdateAsync(pedido);
+    }
 }

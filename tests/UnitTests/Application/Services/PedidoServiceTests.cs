@@ -240,4 +240,45 @@ public class PedidoServiceTests
 
         _repositoryMock.Verify(repo => repo.GetByIdAsync(id), Times.Once);
     }
+
+    [Fact]
+    public async Task PayAsync_Deve_Pagar_Pedido_Existente_E_Atualizar_Repositorio()
+    {
+        var pedido = new Pedido(
+            "Cliente", 
+            new[] { new ItemPedido("Item", 1, 250m) }
+        );
+        var pedidoAtualizado = default(Pedido?);
+
+        _repositoryMock
+            .Setup(repo => repo.GetByIdAsync(pedido.Id))
+            .ReturnsAsync(pedido);
+        _repositoryMock
+            .Setup(repo => repo.UpdateAsync(It.IsAny<Pedido>()))
+            .Callback<Pedido>(p => pedidoAtualizado = p)
+            .Returns(Task.CompletedTask);
+
+        await _service.PayAsync(pedido.Id);
+
+        pedidoAtualizado.Should().NotBeNull();
+        pedidoAtualizado!.Status.Should().Be(StatusPedido.Pago);
+        _repositoryMock.Verify(repo => repo.UpdateAsync(It.IsAny<Pedido>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task PayAsync_Deve_Lancar_KeyNotFoundException_Quando_Pedido_Nao_Existir()
+    {
+        _repositoryMock
+            .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync((Pedido?)null);
+
+        var id = Guid.NewGuid();
+
+        var action = async () => await _service.PayAsync(id);
+
+        await action.Should().ThrowAsync<KeyNotFoundException>()
+            .WithMessage($"Pedido '{id}' não encontrado.");
+
+        _repositoryMock.Verify(repo => repo.GetByIdAsync(id), Times.Once);
+    }
 }

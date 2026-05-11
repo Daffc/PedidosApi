@@ -9,4 +9,5 @@ public interface IPedidoService
     Task<PedidoResponse> GetByIdAsync(Guid id);
     Task<PagedResponse<PedidoResponse>> GetPagedAsync(GetPedidosRequest request);
     Task CancelAsync(Guid id);
+    Task PayAsync(Guid id);
 }

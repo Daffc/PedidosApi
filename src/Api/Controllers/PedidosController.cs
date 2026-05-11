@@ -81,4 +81,20 @@ public sealed class PedidosController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpPatch("{id:guid}/pagar")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Pay(
+        Guid id
+    )
+    {
+        _logger.LogInformation($"Cancelando pedido {id}");
+
+        await _pedidoService.PayAsync(id);
+
+        return NoContent();
+    }
 }
