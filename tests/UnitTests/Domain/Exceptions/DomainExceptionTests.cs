@@ -75,7 +75,7 @@ public class DomainExceptionsTests
         var exception = new PedidoClienteNomeInvalidoException();
 
         exception.Message.Should()
-            .Be("Nome do cleinte é obrigatório.");
+            .Be("Nome do cliente é obrigatório.");
     }
 
     [Fact]
