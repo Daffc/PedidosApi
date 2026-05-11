@@ -51,7 +51,7 @@ public class PedidoServiceIntegrationTests : IDisposable
     {
         var request = new CreatePedidoRequest(
             "Cliente",
-            new List<PedidoItemRequest>
+            new List<ItemPedidoRequest>
             {
                 new ("Item1", 2, 10),
                 new ("Item2", 1, 20)
@@ -212,7 +212,7 @@ public class PedidoServiceIntegrationTests : IDisposable
     {
         var request = new CreatePedidoRequest(
             "Cliente",
-            new List<PedidoItemRequest>
+            new List<ItemPedidoRequest>
             {
                 new("Item 1", 3, 15.50m),
                 new("Item 2", 2, 7.25m),

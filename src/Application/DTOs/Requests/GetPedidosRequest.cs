@@ -1,4 +1,4 @@
-using Application.Common.Pagination;
+using Application.DTOs.Common.Pagination;
 
 namespace Application.DTOs.Requests;
 

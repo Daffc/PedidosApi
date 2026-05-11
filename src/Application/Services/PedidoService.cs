@@ -1,4 +1,4 @@
-using Application.Common.Pagination;
+using Application.DTOs.Common.Pagination;
 using Application.DTOs.Requests;
 using Application.DTOs.Responses;
 using Application.Interfaces.Repositories;

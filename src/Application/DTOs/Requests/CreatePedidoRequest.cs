@@ -2,10 +2,10 @@ namespace Application.DTOs.Requests;
 
 public sealed record CreatePedidoRequest(
     string ClienteNome,
-    IReadOnlyCollection<PedidoItemRequest> Itens
+    IReadOnlyCollection<ItemPedidoRequest> Itens
 );
 
-public sealed record PedidoItemRequest(
+public sealed record ItemPedidoRequest(
     string ProdutoNome,
     int Quantidade,
     decimal PrecoUnitario

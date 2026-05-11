@@ -4,7 +4,7 @@ using Domain.Enums;
 using FluentAssertions;
 using Moq;
 
-using Application.Common.Pagination;
+using Application.DTOs.Common.Pagination;
 using Application.DTOs.Requests;
 using Application.DTOs.Responses;
 using Application.Interfaces.Repositories;
@@ -31,8 +31,8 @@ public class PedidoServiceTests
             "Cliente",
             new[]
             {
-                new PedidoItemRequest("Item1", 1, 100m),
-                new PedidoItemRequest("Item2", 2, 50m)
+                new ItemPedidoRequest("Item1", 1, 100m),
+                new ItemPedidoRequest("Item2", 2, 50m)
             }
         );
 

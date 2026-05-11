@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-using Application.Common.Pagination;
+using Application.DTOs.Common.Pagination;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
 using Domain.Enums;

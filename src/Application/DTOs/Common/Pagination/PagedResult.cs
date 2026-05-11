@@ -1,4 +1,4 @@
-namespace Application.Common.Pagination;
+namespace Application.DTOs.Common.Pagination;
 
 public sealed record PagedResult<T>(
     IReadOnlyCollection<T> Items,
