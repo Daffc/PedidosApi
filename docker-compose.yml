@@ -1,13 +1,28 @@
 services:
-  dotnet:
+  server:
     build:
       context: .
       dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - sqlite_data:/app/persistence
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Data Source=/app/persistence/pedidos.db"
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     working_dir: /workspace
     volumes:
       - .:/workspace
       - sqlite_data:/workspace/persistence
     tty: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Data Source=/workspace/persistence/pedidos.db"
     command: sleep infinity
 
 volumes:

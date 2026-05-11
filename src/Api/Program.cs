@@ -6,6 +6,7 @@ using Application.DependencyInjection;
 using Infrastructure.DependencyInjection;
 using Application.Validators.Requests;
 using Api.Middlewares;
+using Infrastructure.Persistence.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+// CONFIGURANDO BANCO DE DADOS
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction() )
+{
+    MigrationManager.ApplyMigrations(app.Services);
 }
 
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();

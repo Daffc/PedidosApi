@@ -1,10 +1,22 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0
+# BUILD
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-WORKDIR /workspace
+WORKDIR /src
 
-ENV PATH="$PATH:/root/.dotnet/tools"
+COPY . .
 
-RUN dotnet tool install --global dotnet-ef
-RUN dotnet tool install --global dotnet-reportgenerator-globaltool
+RUN dotnet restore
+RUN dotnet publish src/Api/Api.csproj -c Release -o /app
 
-CMD ["sleep", "infinity"]
+# RUNTIME
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+
+WORKDIR /app
+
+COPY --from=build /app .
+
+EXPOSE 8080
+
+ENV ASPNETCORE_URLS=http://+:8080
+
+ENTRYPOINT ["dotnet", "Api.dll"]
