@@ -45,7 +45,7 @@ public sealed class GlobalExceptionHandlingMiddlewareTests : IClassFixture<ApiFa
     [Fact]
     public async Task POST_pedidos_Deve_Retornar_400_Quando_RequestInvalido()
     {
-        var invalidRequest = new { clienteNome = "" 
+        var invalidRequest = new { clienteNome = "" };
 
         var response = await _client.PostAsJsonAsync("/pedidos", invalidRequest);
 

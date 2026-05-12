@@ -1,7 +1,7 @@
 # 📦 Pedidos API (.NET 8)
 API REST para gerenciamento de pedidos com Clean Architecture, EF Core + SQLite, FluentValidation, AutoMapper e Docker.
 ## 🚀 Execução
-### 🟢 Avaliação (local)
+### ✅ Avaliação (local)
 ```
 docker compose up --build server
 ```
@@ -12,6 +12,14 @@ http://localhost:8080
 ### 🧪 Desenvolvimento
 ```
 docker compose up --build dev
+```
+
+## 📘 Swagger
+
+Documentação de API disponível em:
+
+```
+http://localhost:8080/swagger
 ```
 ## 🗄️ Banco de Dados
 - SQLite
