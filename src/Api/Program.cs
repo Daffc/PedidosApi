@@ -26,6 +26,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 // FLUENTVALIDATION
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreatePedidoRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<GetPedidosRequestValidator>();
 
 
 var app = builder.Build();
