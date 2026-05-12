@@ -21,23 +21,18 @@ public sealed class GlobalExceptionHandlingMiddlewareTests : IClassFixture<ApiFa
     [Fact]
     public async Task GET_pedidos_Deve_Retornar_200_Quando_RequisicaoValida()
     {
-        // Act
-        var response = await _client.GetAsync("/api/v1/pedidos");
+        var response = await _client.GetAsync("/pedidos");
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Fact]
     public async Task GET_pedido_id_Deve_Retornar_404_Quando_PedidoInexistente()
     {
-        // Arrange
         var invalidId = Guid.NewGuid();
 
-        // Act
-        var response = await _client.GetAsync($"/api/v1/pedidos/{invalidId}");
+        var response = await _client.GetAsync($"/pedidos/{invalidId}");
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         
         var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
@@ -50,13 +45,10 @@ public sealed class GlobalExceptionHandlingMiddlewareTests : IClassFixture<ApiFa
     [Fact]
     public async Task POST_pedidos_Deve_Retornar_400_Quando_RequestInvalido()
     {
-        // Arrange
-        var invalidRequest = new { clienteNome = "" }; // Nome vazio é inválido
+        var invalidRequest = new { clienteNome = "" 
 
-        // Act
-        var response = await _client.PostAsJsonAsync("/api/v1/pedidos", invalidRequest);
+        var response = await _client.PostAsJsonAsync("/pedidos", invalidRequest);
 
-        // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         
         var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
@@ -69,13 +61,10 @@ public sealed class GlobalExceptionHandlingMiddlewareTests : IClassFixture<ApiFa
     [Fact]
     public async Task GET_pedido_erro_Deve_Conter_TraceId()
     {
-        // Arrange
         var invalidId = Guid.NewGuid();
 
-        // Act
-        var response = await _client.GetAsync($"/api/v1/pedidos/{invalidId}");
+        var response = await _client.GetAsync($"/pedidos/{invalidId}");
 
-        // Assert
         var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
         
         problemDetails.Should().NotBeNull();
@@ -86,30 +75,24 @@ public sealed class GlobalExceptionHandlingMiddlewareTests : IClassFixture<ApiFa
     [Fact]
     public async Task GET_pedido_erro_Deve_Retornar_ContentType_ApplicationJson()
     {
-        // Arrange
         var invalidId = Guid.NewGuid();
 
-        // Act
-        var response = await _client.GetAsync($"/api/v1/pedidos/{invalidId}");
+        var response = await _client.GetAsync($"/pedidos/{invalidId}");
 
-        // Assert
         response.Content.Headers.ContentType?.MediaType.Should().Be("application/json");
     }
 
     [Fact]
     public async Task GET_pedido_erro_Deve_Conter_InstancePath()
     {
-        // Arrange
         var invalidId = Guid.NewGuid();
 
-        // Act
-        var response = await _client.GetAsync($"/api/v1/pedidos/{invalidId}");
+        var response = await _client.GetAsync($"/pedidos/{invalidId}");
 
-        // Assert
         var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
         
         problemDetails.Should().NotBeNull();
-        problemDetails!.Instance.Should().Contain($"/api/v1/pedidos/{invalidId}");
+        problemDetails!.Instance.Should().Contain($"/pedidos/{invalidId}");
     }
 
     [Fact]
@@ -123,16 +106,15 @@ public sealed class GlobalExceptionHandlingMiddlewareTests : IClassFixture<ApiFa
             }
         );
 
-        var createResponse = await _client.PostAsJsonAsync("/api/v1/pedidos", createRequest);
+        var createResponse = await _client.PostAsJsonAsync("/pedidos", createRequest);
         createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
         var pedido = await createResponse.Content.ReadFromJsonAsync<PedidoResponse>();
 
-        // CANCELAR APÓS PAGAR DEVE FALHAR
-        var payResponse = await _client.PatchAsync($"/api/v1/pedidos/{pedido!.Id}/pagar", null);
+        var payResponse = await _client.PatchAsync($"/pedidos/{pedido!.Id}/pagar", null);
         payResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-        var cancelResponse = await _client.PatchAsync($"/api/v1/pedidos/{pedido!.Id}/cancelar", null);
+        var cancelResponse = await _client.PatchAsync($"/pedidos/{pedido!.Id}/cancelar", null);
 
         cancelResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         

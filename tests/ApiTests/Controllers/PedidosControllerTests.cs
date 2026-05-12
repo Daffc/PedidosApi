@@ -27,7 +27,7 @@ public sealed class PedidosControllerTests : IClassFixture<ApiFactory>
             }
         );
 
-        var response = await _client.PostAsJsonAsync("api/v1/pedidos", request);
+        var response = await _client.PostAsJsonAsync("/pedidos", request);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -46,7 +46,7 @@ public sealed class PedidosControllerTests : IClassFixture<ApiFactory>
             new List<ItemPedidoRequest>()
         );
 
-        var response = await _client.PostAsJsonAsync("api/v1/pedidos", request);
+        var response = await _client.PostAsJsonAsync("/pedidos", request);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -67,10 +67,10 @@ public sealed class PedidosControllerTests : IClassFixture<ApiFactory>
             }
         );
 
-        var createResponse = await _client.PostAsJsonAsync("api/v1/pedidos", createRequest);
+        var createResponse = await _client.PostAsJsonAsync("/pedidos", createRequest);
         var created = await createResponse.Content.ReadFromJsonAsync<PedidoResponse>();
 
-        var response = await _client.GetAsync($"/api/v1/pedidos/{created!.Id}");
+        var response = await _client.GetAsync($"/pedidos/{created!.Id}");
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -83,7 +83,7 @@ public sealed class PedidosControllerTests : IClassFixture<ApiFactory>
     [Fact]
     public async Task GET_pedido_id_Deve_Retornar_404_Quando_PedidoInexistente()
     {
-        var response = await _client.GetAsync($"/api/v1/pedidos/{Guid.NewGuid()}");
+        var response = await _client.GetAsync($"/pedidos/{Guid.NewGuid()}");
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -103,10 +103,10 @@ public sealed class PedidosControllerTests : IClassFixture<ApiFactory>
             }
         );
 
-        var createResponse = await _client.PostAsJsonAsync("api/v1/pedidos", createRequest);
+        var createResponse = await _client.PostAsJsonAsync("/pedidos", createRequest);
         var created = await createResponse.Content.ReadFromJsonAsync<PedidoResponse>();
 
-        var response = await _client.PatchAsync($"/api/v1/pedidos/{created!.Id}/cancelar", null);
+        var response = await _client.PatchAsync($"/pedidos/{created!.Id}/cancelar", null);
 
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -122,10 +122,10 @@ public sealed class PedidosControllerTests : IClassFixture<ApiFactory>
             }
         );
 
-        var createResponse = await _client.PostAsJsonAsync("api/v1/pedidos", createRequest);
+        var createResponse = await _client.PostAsJsonAsync("/pedidos", createRequest);
         var created = await createResponse.Content.ReadFromJsonAsync<PedidoResponse>();
 
-        var response = await _client.PatchAsync($"/api/v1/pedidos/{created!.Id}/pagar", null);
+        var response = await _client.PatchAsync($"/pedidos/{created!.Id}/pagar", null);
 
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -133,7 +133,7 @@ public sealed class PedidosControllerTests : IClassFixture<ApiFactory>
     [Fact]
     public async Task GETdeve_retornar_200_Quando_RequestValido()
     {
-        var response = await _client.GetAsync("/api/v1/pedidos?page=1&pageSize=10");
+        var response = await _client.GetAsync("/pedidos?page=1&pageSize=10");
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
